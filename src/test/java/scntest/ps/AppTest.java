@@ -5,7 +5,10 @@ import com.google.gson.Gson;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import scn.index.ES.ElasticSearchClient;
+import scn.index.LoggerUtil.CommonLogger;
 import scn.index.solr.PayLoad;
+import scn.index.status.*;
 
 /**
  * Unit test for simple App.
@@ -49,6 +52,15 @@ public class AppTest
     	PayLoad pl = gs.fromJson(json, PayLoad.class);
     	System.out.println(pl.dbpath);
     	
+    }
+
+    public void testES()
+    {
+        CommonLogger.consolePrint("Create elastic search client test ----------->");
+        ElasticSearchClient client = new ElasticSearchClient("47.105.127.77",9200);
+        CommonStatus status = client.CreateIndex("books-1");
+        CommonLogger.consolePrint(status.getMessage());
+        client.CreateDocument();
     }
     
    
