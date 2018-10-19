@@ -58,7 +58,8 @@ public class AppTest
     {
         CommonLogger.consolePrint("Create elastic search client test ----------->");
         ElasticSearchClient client = new ElasticSearchClient("47.105.127.77",9200);
-        CommonStatus status = client.CreateIndex("books-1");
+        String mapping = "{\r\n    \"bookContents\": {\r\n              \"properties\": {\r\n            \"content\": {\r\n                \"type\": \"text\",\r\n                \"store\": \"true\",\r\n                \"term_vector\": \"with_positions_offsets\",\r\n                \"analyzer\": \"ik_max_word\",\r\n                \"search_analyzer\": \"ik_max_word\",\r\n                        \"boost\": 8\r\n            }\r\n        }\r\n    }\r\n}";
+        CommonStatus status = client.CreateIndex("books_cn",mapping,"bookContents");
         CommonLogger.consolePrint(status.getMessage());
         client.CreateDocument();
     }

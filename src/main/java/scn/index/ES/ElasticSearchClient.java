@@ -38,7 +38,7 @@ public class ElasticSearchClient implements Serializable{
 	 * Hiding all setting for shard and replica
 	 * shard and replica should distribute on the backend cluster by ES methodology
 	 */
-	public  CommonStatus CreateIndex(String idxName)
+	public  CommonStatus CreateIndex(String idxName,String mapping,String type)
 	{
                 CommonStatus status = new CommonStatus();
                 
@@ -49,6 +49,8 @@ public class ElasticSearchClient implements Serializable{
                         .put("index.number_of_shards", 1)
                         .put("index.number_of_replicas", 1)
                 );
+                request.mapping(type, mapping,XContentType.JSON);
+                /*
                 //创建索引时创建文档类型映射
                 request.mapping("tweet",//类型定义
                         "  {\n" +
@@ -61,7 +63,7 @@ public class ElasticSearchClient implements Serializable{
                                 "    }\n" +
                                 "  }",//类型映射，需要的是一个JSON字符串
                         XContentType.JSON);
-
+		*/
                 //为索引设置一个别名
                 request.alias(
                         new Alias("books-alias")
