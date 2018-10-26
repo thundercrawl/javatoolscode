@@ -2,6 +2,7 @@ package scn.index.ES;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.ElasticsearchStatusException;
@@ -123,20 +124,15 @@ public class ElasticSearchClient implements Serializable{
         
 
 
-        public CommonStatus CreateDocument()
+        public CommonStatus CreateDocument(String idx,String type,Map<String, Object> jsonContent)
         {
                 CommonStatus status = new CommonStatus();
 
                 IndexRequest request = new IndexRequest(
-                "posts", 
-                "doc",  
-                "1");   
-        String jsonString = "{" +
-                "\"user\":\"kimchy\"," +
-                "\"postDate\":\"2013-01-30\"," +
-                "\"message\":\"中华人民共和国\"" +
-                "}";
-                request.source(jsonString, XContentType.JSON); 
+                idx, 
+                type);  
+        
+                request.source(jsonContent, XContentType.JSON); 
 
                 try {
                        IndexResponse rep = client.index(request, RequestOptions.DEFAULT);
@@ -149,4 +145,14 @@ public class ElasticSearchClient implements Serializable{
                 }
                 return  status;
         }
+
+        public CommonStatus searchIndex(String searchText)
+        {
+                CommonStatus status = new CommonStatus();
+                
+                
+                return status;
+        }
+
+
 }

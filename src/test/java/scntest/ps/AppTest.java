@@ -1,5 +1,15 @@
 package scntest.ps;
 
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gson.Gson;
 
 import junit.framework.Test;
@@ -54,15 +64,42 @@ public class AppTest
     	
     }
 
-    public void testES()
+    public void buildTestIndex()
     {
         CommonLogger.consolePrint("Create elastic search client test ----------->");
         ElasticSearchClient client = new ElasticSearchClient("47.105.127.77",9200);
         String mapping = "{\r\n    \"bookContents\": {\r\n              \"properties\": {\r\n            \"content\": {\r\n                \"type\": \"text\",\r\n                \"store\": \"true\",\r\n                \"term_vector\": \"with_positions_offsets\",\r\n                \"analyzer\": \"ik_max_word\",\r\n                \"search_analyzer\": \"ik_max_word\",\r\n                        \"boost\": 8\r\n            }\r\n        }\r\n    }\r\n}";
         CommonStatus status = client.CreateIndex("books_cn",mapping,"bookContents");
         CommonLogger.consolePrint(status.getMessage());
-        client.CreateDocument();
+
+
+        Map<String, Object> jsonMap = new HashMap<>();
+       
+
+        try {
+            File file = new File("c:/tmp/all.txt");
+            if(file.isFile() && file.exists()) {
+              InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "utf-8");
+              BufferedReader br = new BufferedReader(isr);
+              String lineTxt = null;
+              while ((lineTxt = br.readLine()) != null) {
+                jsonMap.put("user", "kimmy");
+                jsonMap.put("postDate", new Date());
+                jsonMap.put("bookContents", lineTxt);
+                jsonMap.put("bookName","浪子回头");
+                client.CreateDocument("books_cn","bookContents",jsonMap);
+                jsonMap.clear();
+              }
+              br.close();
+            } else {
+              System.out.println("文件不存在!");
+            }
+          } catch (Exception e) {
+            System.out.println("文件读取错误!");
+          }
+        
     }
     
    
 }
+ 
