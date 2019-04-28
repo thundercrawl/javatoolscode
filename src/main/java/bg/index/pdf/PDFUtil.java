@@ -1,6 +1,8 @@
 package bg.index.pdf;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,8 +28,28 @@ public class PDFUtil {
 	    public static void main(String[] args) {
 	        writeUsingIText();
 	    }
+	    public static void readPDF(File f)
+	    {
 
-	    private static void writeUsingIText() {
+	        PdfReader reader;
+
+	        try {
+
+	            reader = new PdfReader(f.getAbsolutePath());
+
+	            // pageNumber = 1
+	            String textFromPage = PdfTextExtractor.getTextFromPage(reader, 1);
+
+	            System.out.println(textFromPage);
+
+	            reader.close();
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+
+	    }
+	    public static void writeUsingIText() {
 
 	        Document document = new Document();
 

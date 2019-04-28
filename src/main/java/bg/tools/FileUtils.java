@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import bg.index.pdf.PDFUtil;
+
 public class FileUtils {
 
 	/*
@@ -23,17 +25,19 @@ public class FileUtils {
 		{
 			for (int i = 0; i < listOfFiles.length; i++) {
 			  if (listOfFiles[i].isFile()) {
+				 if( listOfFiles[i].getName().endsWith(regex))
 				  	files.add(listOfFiles[i]);
 			    
 			  } else if (listOfFiles[i].isDirectory()) {
 			    ds.add(listOfFiles[i]);
 			  }
-			  ds.poll();
+			 
+			}
+			 ds.poll();
 			  folder = ds.peek();
 			  if(folder!=null)
 				  listOfFiles = folder.listFiles();
 			  else break;
-			}
 			
 		}
 		return files;
@@ -43,6 +47,12 @@ public class FileUtils {
 	
 	public static void main(String[] args)
 	{
-		FileUtils.getFilesByPath("c:\\","pdf");
+		List<File> files = FileUtils.getFilesByPath("C:\\Users\\jinjun.su\\OneDrive - HCL Technologies Ltd","pdf");
+		Logger.logInfo("file size:"+files.size());
+		for(File f:files)
+		{
+			Logger.logInfo("[name]->"+f.getAbsolutePath().toString());
+			PDFUtil.readPDF(f);
+		}
 	}
 }
