@@ -35,6 +35,11 @@ public class ElasticSearchClient implements Serializable{
                                 new HttpHost(host, port, "http")).setMaxRetryTimeoutMillis(9000*1000));
         
         }
+        
+        public boolean isOnline()
+        {
+        	return false;
+        }
 	/*
 	 * Hiding all setting for shard and replica
 	 * shard and replica should distribute on the backend cluster by ES methodology
