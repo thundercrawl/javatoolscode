@@ -4,6 +4,9 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
+import bg.tools.Logger;
+
+import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -32,16 +35,25 @@ public class PDFUtil {
 	    {
 
 	        PdfReader reader;
-
 	        try {
 
 	            reader = new PdfReader(f.getAbsolutePath());
-
 	            // pageNumber = 1
-	            String textFromPage = PdfTextExtractor.getTextFromPage(reader, 1);
-
-	            System.out.println(textFromPage);
-
+	            int pageSize = reader.getNumberOfPages();
+	            //Logger.logInfo("page size:"+pageSize);
+	    		int size = 0;
+	            for(int idx=1;idx<=pageSize;idx++)
+	            {
+		            String textFromPage = PdfTextExtractor.getTextFromPage(reader, idx);
+		            if(textFromPage==null)
+		            	continue;
+		            size+=textFromPage.length();
+		        //  Logger.logInfo("Read string size:"+textFromPage.length()+" page number:"+idx);
+		          //Logger.logInfo(textFromPage);
+		         
+	            }
+	            float resultMbyte = size/1024/1024;
+	            Logger.logInfo("document size:"+resultMbyte+" mbytes"+" page size:"+pageSize+" original size:"+size);
 	            reader.close();
 
 	        } catch (IOException e) {

@@ -21,6 +21,10 @@ public class MultiTaskMgr {
 	{
 		return THREAD_PRE+threadindx++;
 	}
+	/*
+	 * Define the spawn thread in running, that descide the throughput in the engine
+	 * Num: default is 10
+	 */
 	public static MultiTaskMgr getInstance(Integer num)
 	{
 		if(mgr==null)

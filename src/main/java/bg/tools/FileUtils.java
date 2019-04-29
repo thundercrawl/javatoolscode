@@ -48,11 +48,14 @@ public class FileUtils {
 	public static void main(String[] args)
 	{
 		List<File> files = FileUtils.getFilesByPath("C:\\Users\\jinjun.su\\OneDrive - HCL Technologies Ltd","pdf");
+		//List<File> files = FileUtils.getFilesByPath("C:\\books","pdf");
 		Logger.logInfo("file size:"+files.size());
+		int count =1;
 		for(File f:files)
 		{
-			Logger.logInfo("[name]->"+f.getAbsolutePath().toString());
+			Logger.logInfo("[name]->"+f.getAbsolutePath().toString()+" count:"+count++);
 			PDFUtil.readPDF(f);
 		}
-	}
+		Logger.logInfo("total "+files.size()+" documents handled");
+	} 
 }
