@@ -37,9 +37,10 @@ public class PDFImportTask implements Task {
 		for(File f:files)
 		{
 		//	Logger.logInfo("[name]->"+f.getAbsolutePath().toString()+" count:"+count++);
-			MultiTaskMgr.getInstance(5).submitTask(new PDFImportTask(f) );
+			MultiTaskMgr.getInstance(8).submitTask(new PDFImportTask(f) );
 		}
 		Logger.logInfo("total "+files.size()+" documents handled");
+		MultiTaskMgr.getInstance(10).waitForExit();
 	
 	}
 }
