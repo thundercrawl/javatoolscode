@@ -17,7 +17,13 @@ public class PDFImportTask implements Task {
 	}
 	@Override
 	public void run() {
-		PDFUtil.readPDF(_file);
+		try{
+			PDFUtil.readPDF(_file);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 
@@ -30,7 +36,7 @@ public class PDFImportTask implements Task {
 	
 	public  static void main(String args[])
 	{
-		List<File> files = FileUtils.getFilesByPath("C:\\Users\\jinjun.su\\OneDrive - HCL Technologies Ltd","pdf");
+		List<File> files = FileUtils.getFilesByPath("G:\\OneDrive - HCL Technologies Ltd","pdf");
 		//List<File> files = FileUtils.getFilesByPath("C:\\books","pdf");
 		Logger.logInfo("file size:"+files.size());
 		int count =1;
@@ -40,7 +46,10 @@ public class PDFImportTask implements Task {
 			MultiTaskMgr.getInstance(8).submitTask(new PDFImportTask(f) );
 		}
 		Logger.logInfo("total "+files.size()+" documents handled");
+		long start = System.currentTimeMillis();
 		MultiTaskMgr.getInstance(10).waitForExit();
+		//97 seconds 6700k,149 documents
+		Logger.logInfo("Total processing time:"+(System.currentTimeMillis()-start)/1000+" seconds");
 	
 	}
 }
