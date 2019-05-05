@@ -54,7 +54,7 @@ public class FileUtils {
 		for(File f:files)
 		{
 			Logger.logInfo("[name]->"+f.getAbsolutePath().toString()+" count:"+count++);
-			PDFUtil.readPDF(f);
+			PDFUtil.readPDFImportES(f,null);
 		}
 		Logger.logInfo("total "+files.size()+" documents handled");
 	} 

@@ -7,18 +7,22 @@ import bg.tools.FileUtils;
 import bg.tools.Logger;
 import bg.tools.concurrent.MultiTaskMgr;
 import bg.tools.concurrent.Task;
+import scn.index.ES.ESImporter;
 
 public class PDFImportTask implements Task {
 
 	private File _file = null;
-	public PDFImportTask(File f)
+	private ESImporter _importer;
+	public PDFImportTask(File f,ESImporter importer)
 	{
 		_file = f;
+		_importer = importer;
+		
 	}
 	@Override
 	public void run() {
 		try{
-			PDFUtil.readPDF(_file);
+			PDFUtil.readPDFImportES(_file,_importer);
 		}
 		catch(Exception e)
 		{
@@ -36,14 +40,14 @@ public class PDFImportTask implements Task {
 	
 	public  static void main(String args[])
 	{
-		List<File> files = FileUtils.getFilesByPath("G:\\OneDrive - HCL Technologies Ltd","pdf");
-		//List<File> files = FileUtils.getFilesByPath("C:\\books","pdf");
+		//List<File> files = FileUtils.getFilesByPath("G:\\OneDrive - HCL Technologies Ltd","pdf");
+		List<File> files = FileUtils.getFilesByPath("C:\\Users\\jinjun.su\\OneDrive - HCL Technologies Ltd","pdf");
 		Logger.logInfo("file size:"+files.size());
 		int count =1;
 		for(File f:files)
 		{
 		//	Logger.logInfo("[name]->"+f.getAbsolutePath().toString()+" count:"+count++);
-			MultiTaskMgr.getInstance(8).submitTask(new PDFImportTask(f) );
+			MultiTaskMgr.getInstance(8).submitTask(new PDFImportTask(f,new ESImporter("47.105.127.77", 9200) ) );
 		}
 		Logger.logInfo("total "+files.size()+" documents handled");
 		long start = System.currentTimeMillis();

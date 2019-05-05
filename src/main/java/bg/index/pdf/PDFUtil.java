@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import bg.tools.Logger;
+import scn.index.ES.ESImporter;
 
 import java.io.Console;
 import java.io.File;
@@ -31,7 +32,7 @@ public class PDFUtil {
 	    public static void main(String[] args) {
 	        writeUsingIText();
 	    }
-	    public static void readPDF(File f)
+	    public static void readPDFImportES(File f,ESImporter importer)
 	    {
 
 	        PdfReader reader;
@@ -48,6 +49,7 @@ public class PDFUtil {
 		            if(textFromPage==null)
 		            	continue;
 		            size+=textFromPage.length();
+		            importer.putDoc(textFromPage, "bookcn", "bookContents", f.getName());
 		        //  Logger.logInfo("Read string size:"+textFromPage.length()+" page number:"+idx);
 		          //Logger.logInfo(textFromPage);
 		         

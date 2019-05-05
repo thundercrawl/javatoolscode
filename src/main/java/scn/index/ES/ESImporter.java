@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.ActionListener;
@@ -22,32 +24,24 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 
 public class ESImporter {
-	public static void insertDocument(File file)
+	private ElasticSearchClient client;
+	public ESImporter(String host, int port)
 	{
-		  try {
-	           
-	            if(file.isFile() && file.exists()) {
-	              InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "utf-8");
-	              BufferedReader br = new BufferedReader(isr);
-	              String lineTxt = null;
-	              while ((lineTxt = br.readLine()) != null) {
-	                jsonMap.put("user", "kimmy");
-	                jsonMap.put("postDate", new Date());
-	                jsonMap.put("bookContents", lineTxt);
-	                jsonMap.put("bookName","浪子回头");
-	                client.CreateDocument("books_cn","bookContents",jsonMap);
-	                jsonMap.clear();
-	              }
-	              br.close();
-	            } else {
-	              System.out.println("文件不存在!");
-	            }
-	          } catch (Exception e) {
-	            System.out.println("文件读取错误!");
-	          }
+		client = new ElasticSearchClient(host, port);
+	}
+	public  void putDoc(String buf,String indx, String type, String bookname)
+	{
+		   Map<String, Object> jsonMap = new HashMap<>();
+		String lineTxt = buf;
+          jsonMap.put("postDate", new Date());
+          jsonMap.put("bookContents", lineTxt);
+          jsonMap.put("bookName",bookname);
+          client.CreateDocument(indx,"bookContents",jsonMap);
+          jsonMap.clear();
+   
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {/*
 		RestHighLevelClient client = new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost("47.105.127.77", 9200, "http")).setMaxRetryTimeoutMillis(9000*1000));
@@ -106,7 +100,7 @@ public class ESImporter {
         };
         
         
-        /*
+        
         //异步执行
         //异步执行创建索引请求需要将CreateIndexRequest实例和ActionListener实例传递给异步方法：
         //CreateIndexResponse的典型监听器如下所示：
@@ -123,11 +117,11 @@ public class ESImporter {
         };
    
         client.indices().createAsync(request, listener);//要执行的CreateIndexRequest和执行完成时要使用的ActionListener
-*/
+
         //返回的CreateIndexResponse允许检索有关执行的操作的信息，如下所示：
         boolean acknowledged = createIndexResponse.isAcknowledged();//指示是否所有节点都已确认请求
         boolean shardsAcknowledged = createIndexResponse.isShardsAcknowledged();//指示是否在超时之前为索引中的每个分片启动了必需的分片副本数
 		
-	}
+	*/}
 
 }
