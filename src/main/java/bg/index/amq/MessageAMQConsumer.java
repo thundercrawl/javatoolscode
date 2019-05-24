@@ -14,7 +14,7 @@ import javax.jms.Topic;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import scn.index.domino.DominoLogger;
+import scn.index.db.DominoLogger;
 
 
 
