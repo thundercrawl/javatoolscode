@@ -1,38 +1,27 @@
 package scn.index.test;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 
 public class LongestSubStr_3 {
 	 public int lengthOfLongestSubstring(String s) {
-		 HashMap<Character,Boolean> longest = new HashMap<Character,Boolean>();
-		 HashMap<Character,Boolean> ct = new HashMap<Character,Boolean>();
-		 Boolean reset = false;
-		 for(Character c:s.toCharArray())
-		 {
-			 if(longest.containsKey(c)&&!reset)
-			 {
-				 ct.put(c, false);
-				 reset = true;
-			 } 
-			 else if(reset)
-			 {
-				 ct.put(c, false);
-				 if(ct.size()>longest.size())
-				 {
-					 longest = ct;
-					 ct = new HashMap<Character,Boolean>();
-					 reset = false;
-				 }
-			 }
-			else
-				 longest.put(c, false);
-			 
-		 }
+		
+		 HashMap<Character,Integer> substr1 = new HashMap<Character,Integer>();
+		 HashMap<Character,Integer> substr2 = new HashMap<Character,Integer>();
+		 Integer bigest = -1;
 		 
-		 return longest.keySet().size();
+		 for( Integer start =0; start<s.length()-1;start++)
+		 {
+			String substring = s.substring(start,s.length()-1 );
+			for(Character c:substring.toCharArray())
+			{
+				
+			}
+		 }
+		 return 0;
 	    }
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		new LongestSubStr_3().lengthOfLongestSubstring("hello");
 
 	}
 
